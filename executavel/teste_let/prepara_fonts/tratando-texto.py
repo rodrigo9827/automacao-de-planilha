@@ -23,7 +23,8 @@ texto.insert(tk.END, "\n")
 
 def janela_confirmacao():
    #antes de abrir a janela salvar o arquivo
-   #criar variaveis e loop para enquanto o usuario disser "sim" o programa salvar o nome do programa{numero do pct}
+   #criar variaveis e loop para enquanto for uma afirmação Verdadeira o programa salvar o nome do programa{numero do pct}
+   #se usuario informar não a variavel recebe False
    tela_f = tk.Tk()
 
    tela_f.title('confirmação')
