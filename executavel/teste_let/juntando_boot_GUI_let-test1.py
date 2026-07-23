@@ -53,11 +53,16 @@ celulas_entry.pack(pady=5)
 def abrindo_excel(url):
     webbrowser.open(url)
 
-def tratando_Login():
-    pyautogui.press('tab')
-    time.sleep(2) 
+def tratando_Login(email,senha):
+    #trocar em producao
+    time.sleep(5)
+    pyautogui.write(email)
+    time.sleep(1)
     pyautogui.press('enter')
     time.sleep(2)
+    pyautogui.hotkey('ctrl', 'backspace')
+    pyautogui.write(senha)
+    time.sleep(1)
     pyautogui.press('enter')
     time.sleep(2)
     pyautogui.press('enter')
@@ -76,10 +81,11 @@ def processar_arquivo_txt(arquivos_txt, colunas_por_linha):
 
     coluna_atual = 0
     for caminho_arquivo in arquivos_txt:    
+        linhas_copiadas = []
         with open(caminho_arquivo, 'r', encoding='utf8') as arquivo:
             for linha in arquivo:
                 linha = linha.strip()
-                            
+                linhas_copiadas.append(linha)
                 pyautogui.write(linha)
                 time.sleep(0.3)
             
@@ -92,6 +98,7 @@ def processar_arquivo_txt(arquivos_txt, colunas_por_linha):
                 else:
                     pyautogui.press('tab')   
                 time.sleep(0.3)
+        linhas_copiadas=[]
     return "Processamento de todos os arquivos concluído!"
 
 def executar_automacao():
@@ -103,11 +110,11 @@ def executar_automacao():
     try:
         colunas_por_linha = int(celulas_entry.get())
     except ValueError:
-        colunas_por_linha = 5  # Valor padrão de segurança
+        colunas_por_linha = 9  # Valor padrão de segurança
 
     if url:
         abrindo_excel(url)
-        tratando_Login()
+        tratando_Login(email,senha)
         processar_arquivo_txt(arquivos_txt, colunas_por_linha)
 
 style = ttk.Style()
