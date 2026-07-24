@@ -50,7 +50,7 @@ del /f /q "%INSTALLER%" >nul 2>&1
 
 echo.
 echo ============================================
-echo [OK] Instalacao do Python concluida!
+echo [OK] Instalacao do Python concluida
 echo ============================================
 
 :: Busca novamente o caminho do executavel instalado recente
@@ -77,8 +77,8 @@ echo.
 echo [2/4] Definindo caminhos de diretorio...
 set "ORIGEM=%userprofile%\Desktop\atendimento_rodada"
 
-set "DESTINO1=%userprofile%\Downloads\automacao-de-planilha-main\automacao-de-planilha-main\executavel"
-set "DESTINO2=%userprofile%\Downloads\automacao-de-planilha-main\automacao-de-planilha-main\executavel"
+set "DESTINO1=%userprofile%\Downloads\automacao-de-planilha-main\automacao-de-planilha-main\executavel\teste_let"
+set "DESTINO2=%userprofile%\Downloads\automacao-de-planilha-main\automacao-de-planilha-main\executavel\teste_let"
 
 if exist "%DESTINO1%" (
     set "DESTINO=%DESTINO1%"
@@ -100,10 +100,10 @@ echo.
 echo [4/4] Executando o script Python...
 cd /d "%DESTINO%"
 
-if exist "juntando_boot_GUI.py" (
-    %PYTHON_CMD% juntando_boot_GUI.py
+if exist "tratando_texto.py" (
+    %PYTHON_CMD% tratando_texto.py
 ) else (
-    echo [ERRO] O arquivo juntando_boot_GUI.py nao foi encontrado em:
+    echo [ERRO] O arquivo tratando_texto.py nao foi encontrado em:
     echo %DESTINO%
 )
 
@@ -114,4 +114,5 @@ echo ============================================
 
 :fim
 echo.
+
 pause
