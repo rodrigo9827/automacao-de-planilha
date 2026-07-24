@@ -1,7 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 import os
+import subprocess
+import sys
 import pyautogui
+
 
 root2 = tk.Tk()
 
@@ -57,8 +60,14 @@ def janela_confirmacao():
 
 
    def botao_nao_click(): #arrumar para salvar o arquivo e abrir a tela de inserção de dados, para inserir mais um paciente
-       destruir_e_executar()
-       exit()
+       tela_f.destroy()
+       caminho_script = os.path.join(
+           os.path.dirname(os.path.abspath(__file__)),
+           'juntando_boot_GUI_excel_login_condicional.py',
+       )
+       subprocess.Popen([sys.executable, caminho_script])
+       root2.destroy()
+       
 
    botao_sim = ttk.Button(tela_f, text='Sim', command=botao_sim_click)
    botao_sim.pack()

@@ -6,6 +6,7 @@ import glob
 import time
 import os
 
+
 root = tk.Tk()
 
 root.title('Bot de automação GUI')
