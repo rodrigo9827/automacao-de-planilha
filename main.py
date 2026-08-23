@@ -1,27 +1,3 @@
-"""
-main.py
-
-Ponto de entrada do programa. É a janela (GUI) que a enfermeira vê.
-
-Pontos importantes de design:
-
-1. E-mail e senha NUNCA são salvos em disco, arquivo de log, ou
-   variável de ambiente — ficam só na memória do programa enquanto ele
-   roda, e são apagados do campo assim que o botão "Iniciar" é clicado.
-   Isso mantém a mesma política de privacidade do programa original
-   (README: "não salva login por privacidade").
-
-2. A automação roda numa thread separada (`threading.Thread`), porque
-   Selenium + digitação demoram vários segundos/minutos, e se isso
-   rodasse direto na thread principal do Tkinter a janela ficaria
-   travada ("Não está respondendo") o tempo todo.
-
-3. Erros são mostrados na própria janela (não só no terminal), porque
-   quem vai usar isso no dia a dia é a enfermeira, não um programador.
-"""
-
-from __future__ import annotations
-
 import os
 import threading
 import tkinter as tk
@@ -43,20 +19,9 @@ from core.web_automation import (
     iniciar_navegador,
     preencher_pacientes,
 )
-
-# Pasta onde as enfermeiras salvam os pacientes (mesma do programa original)
+# Pasta onde as enfermeiras salvam os pacientes
 PASTA_ATENDIMENTO = os.path.join(os.path.expanduser("~"), "Desktop", "atendimento_rodada")
-
-
 class JanelaTextoLivre:
-    """Formulário de entrada de dados com um único campo de texto.
-
-    Ponto único de entrada de pacientes/registros na fila — o texto é
-    livre, sem campos fixos. Cada linha digitada vira uma célula da
-    planilha, na ordem em que aparece. Deixar uma linha em branco pula
-    uma célula, igual ao comportamento original do sistema.
-    """
-
     def __init__(
         self, janela_pai: tk.Tk, ao_salvar, titulo: str, prefixo_arquivo: str
     ) -> None:
@@ -92,6 +57,10 @@ class JanelaTextoLivre:
             background="#28a745",
             foreground="white",
             font=("Helvetica", 10, "bold"),
+            borderwidth=0,
+            relief="flat",
+            focuscolor="",
+
         )
         estilo.map(
             "BotaoVerde.TButton",
@@ -172,16 +141,15 @@ class JanelaPrincipal:
         self.campo_colunas.pack(pady=4)
 
         estilo = ttk.Style()
-        # Força o tema "clam": os temas nativos do Windows (vista/winnative)
-        # ignoram cor de fundo customizada em botão, mas ainda aplicam a
-        # cor de fonte branca — resultado: texto branco sobre fundo
-        # branco, invisível. O tema "clam" respeita as duas cores.
         estilo.theme_use("clam")
         estilo.configure(
             "BotaoVerde.TButton",
             background="#28a745",
             foreground="white",
             font=("Helvetica", 10, "bold"),
+            borderwidth=0,
+            relief="flat",
+            focuscolor="",
         )
         estilo.map(
             "BotaoVerde.TButton",
@@ -193,6 +161,9 @@ class JanelaPrincipal:
             background="#0d6efd",
             foreground="white",
             font=("Helvetica", 10, "bold"),
+            borderwidth=0,
+            relief="flat",
+            focuscolor="",
         )
         estilo.map(
             "BotaoAzul.TButton",
@@ -265,9 +236,7 @@ class JanelaPrincipal:
         except ValueError:
             colunas_por_linha = 5
 
-        # Apaga a senha do campo assim que ela é lida — não fica
-        # exposta na tela nem em memória do widget por mais tempo
-        # que o necessário.
+        # Apaga a senha do campo assim que ela é lida 
         self.campo_senha.delete(0, tk.END)
 
         if not url or not email or not senha:
@@ -340,9 +309,7 @@ class JanelaPrincipal:
         finally:
             self.root.after(0, lambda: self.botao_iniciar.configure(state="normal"))
             self.root.after(0, self._atualizar_contagem_pendentes)
-            # O navegador é deixado aberto de propósito, para a enfermeira
-            # conferir visualmente o resultado antes de fechar na mão.
-
+            
     def executar(self) -> None:
         self.root.mainloop()
 
