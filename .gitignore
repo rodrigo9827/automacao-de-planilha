@@ -1,0 +1,11 @@
+# Nunca versionar dados de pacientes (privacidade / LGPD)
+atendimento_rodada/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Ambiente local
+.env
