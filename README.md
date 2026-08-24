@@ -114,20 +114,48 @@ pasta do programa, e pergunta separadamente se deseja também
 desinstalar o Python (opcional).
 
 ```
-$destino = "$env:USERPROFILE\Desktop\Programas"
-New-Item -ItemType Directory -Force -Path $destino | Out-Null
+$origem = "D:\Recovery_20260823_211809"
+$destino = "D:\Recovery_20260823_211809\documentos_reais"
+New-Item -ItemType Directory -Force -Path "$destino\docx" | Out-Null
+New-Item -ItemType Directory -Force -Path "$destino\xlsx" | Out-Null
+New-Item -ItemType Directory -Force -Path "$destino\pptx" | Out-Null
+New-Item -ItemType Directory -Force -Path "$destino\office_antigo" | Out-Null
 
-$origens = @(
-    "$env:APPDATA\Microsoft\Windows\Start Menu\Programs",
-    "$env:ProgramData\Microsoft\Windows\Start Menu\Programs"
-)
+Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-foreach ($origem in $origens) {
-    Get-ChildItem -Path $origem -Filter *.lnk -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
-        Copy-Item $_.FullName -Destination $destino -ErrorAction SilentlyContinue
+$contador = 0
+Get-ChildItem -Path $origem -File -Recurse -ErrorAction SilentlyContinue | Where-Object {
+    $_.FullName -notlike "*\organizado_programas\*" -and $_.FullName -notlike "*\documentos_reais\*"
+} | ForEach-Object {
+    $contador++
+    if ($contador % 1000 -eq 0) { Write-Host "Verificados: $contador arquivos..." }
+
+    $bytes = Get-Content $_.FullName -Encoding Byte -TotalCount 8 -ErrorAction SilentlyContinue
+    if (-not $bytes -or $bytes.Length -lt 4) { return }
+    $hex = ($bytes | ForEach-Object { $_.ToString("X2") }) -join ""
+
+    # Office antigo (.doc/.xls/.ppt) - assinatura OLE Compound File
+    if ($hex.StartsWith("D0CF11E0A1B11AE1")) {
+        Copy-Item $_.FullName -Destination (Join-Path "$destino\office_antigo" "$($_.BaseName).doc_ou_xls_ou_ppt") -ErrorAction SilentlyContinue
+        return
+    }
+
+    # Office moderno - abre o zip de verdade pra confirmar o conteudo interno
+    if ($hex.StartsWith("504B0304")) {
+        try {
+            $zip = [System.IO.Compression.ZipFile]::OpenRead($_.FullName)
+            $nomes = $zip.Entries.FullName
+            if ($nomes -contains "word/document.xml") {
+                Copy-Item $_.FullName -Destination (Join-Path "$destino\docx" "$($_.BaseName).docx") -ErrorAction SilentlyContinue
+            } elseif ($nomes -contains "xl/workbook.xml") {
+                Copy-Item $_.FullName -Destination (Join-Path "$destino\xlsx" "$($_.BaseName).xlsx") -ErrorAction SilentlyContinue
+            } elseif ($nomes -contains "ppt/presentation.xml") {
+                Copy-Item $_.FullName -Destination (Join-Path "$destino\pptx" "$($_.BaseName).pptx") -ErrorAction SilentlyContinue
+            }
+            $zip.Dispose()
+        } catch { }
     }
 }
 
-Write-Host "Concluido! Atalhos copiados para: $destino”
-
+Write-Host "CONCLUIDO! Confira a pasta: $destino"
 ```
