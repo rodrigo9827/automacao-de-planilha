@@ -5,7 +5,7 @@ echo Iniciando processo de remocao...
 echo ========================================
 echo.
 
-set "PASTA_ALVO=%userprofile%\Downloads\automacao-atendimento\automacao-atendimento"
+set "PASTA_ALVO=%userprofile%\Downloads\automacao-de-planilha-main\automacao-de-planilha-main"
 
 if "%PASTA_ALVO%"=="%userprofile%" goto :fim
 if "%PASTA_ALVO%"=="%userprofile%\Desktop" goto :fim

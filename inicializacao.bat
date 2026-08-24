@@ -64,14 +64,14 @@ echo [OK] Utilizando o interpretador: %PYTHON_CMD%
 
 echo.
 echo [1/4] Definindo caminho do programa...
-set "DESTINO=%userprofile%\Downloads\automacao-atendimento\automacao-atendimento"
+set "DESTINO=%userprofile%\Downloads\automacao-de-planilha-main\automacao-de-planilha-main"
 set "ORIGEM=%userprofile%\Desktop\atendimento_rodada"
 
 if not exist "%DESTINO%\main.py" (
     echo [ERRO] O programa nao foi encontrado em:
     echo %DESTINO%
     echo.
-    echo Confira se a pasta automacao-atendimento esta em Downloads,
+    echo Confira se a pasta automacao-de-planilha esta em Downloads,
     echo ou ajuste o caminho DESTINO no topo deste arquivo.
     goto :fim
 )
