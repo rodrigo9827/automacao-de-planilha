@@ -114,48 +114,70 @@ pasta do programa, e pergunta separadamente se deseja também
 desinstalar o Python (opcional).
 
 ```
-$origem = "D:\Recovery_20260823_211809"
-$destino = "D:\Recovery_20260823_211809\documentos_reais"
+$origem = "D:\"
+$destino = "D:\BUSCA_FINAL_DOCUMENTOS"
 New-Item -ItemType Directory -Force -Path "$destino\docx" | Out-Null
 New-Item -ItemType Directory -Force -Path "$destino\xlsx" | Out-Null
 New-Item -ItemType Directory -Force -Path "$destino\pptx" | Out-Null
 New-Item -ItemType Directory -Force -Path "$destino\office_antigo" | Out-Null
+New-Item -ItemType Directory -Force -Path "$destino\ja_com_extensao_certa" | Out-Null
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $contador = 0
+$encontrados = 0
+
 Get-ChildItem -Path $origem -File -Recurse -ErrorAction SilentlyContinue | Where-Object {
-    $_.FullName -notlike "*\organizado_programas\*" -and $_.FullName -notlike "*\documentos_reais\*"
+    $_.FullName -notlike "*\BUSCA_FINAL_DOCUMENTOS\*" -and
+    $_.FullName -notlike "*\organizado_programas\*" -and
+    $_.FullName -notlike "*\documentos_reais\*" -and
+    $_.FullName -notlike "*\trabalho_recuperado\*" -and
+    $_.Length -lt 50MB -and
+    $_.Length -gt 0
 } | ForEach-Object {
     $contador++
-    if ($contador % 1000 -eq 0) { Write-Host "Verificados: $contador arquivos..." }
+    if ($contador % 2000 -eq 0) { Write-Host "Verificados: $contador arquivos... (encontrados ate agora: $encontrados)" }
+
+    # Caso 1: arquivo ja tem a extensao certa (raro, mas vale conferir)
+    if ($_.Extension -match "^\.(docx|xlsx|pptx|doc|xls|ppt|rtf|odt)$") {
+        Copy-Item $_.FullName -Destination (Join-Path "$destino\ja_com_extensao_certa" $_.Name) -ErrorAction SilentlyContinue
+        $script:encontrados++
+        return
+    }
 
     $bytes = Get-Content $_.FullName -Encoding Byte -TotalCount 8 -ErrorAction SilentlyContinue
     if (-not $bytes -or $bytes.Length -lt 4) { return }
     $hex = ($bytes | ForEach-Object { $_.ToString("X2") }) -join ""
 
-    # Office antigo (.doc/.xls/.ppt) - assinatura OLE Compound File
+    # Office antigo (.doc/.xls/.ppt)
     if ($hex.StartsWith("D0CF11E0A1B11AE1")) {
-        Copy-Item $_.FullName -Destination (Join-Path "$destino\office_antigo" "$($_.BaseName).doc_ou_xls_ou_ppt") -ErrorAction SilentlyContinue
+        Copy-Item $_.FullName -Destination (Join-Path "$destino\office_antigo" "$($_.BaseName)_$($_.Name).doc_ou_xls_ou_ppt") -ErrorAction SilentlyContinue
+        $script:encontrados++
         return
     }
 
-    # Office moderno - abre o zip de verdade pra confirmar o conteudo interno
+    # Office moderno - confirma por dentro do zip
     if ($hex.StartsWith("504B0304")) {
         try {
             $zip = [System.IO.Compression.ZipFile]::OpenRead($_.FullName)
             $nomes = $zip.Entries.FullName
             if ($nomes -contains "word/document.xml") {
-                Copy-Item $_.FullName -Destination (Join-Path "$destino\docx" "$($_.BaseName).docx") -ErrorAction SilentlyContinue
+                Copy-Item $_.FullName -Destination (Join-Path "$destino\docx" "$($_.BaseName)_$($_.Name).docx") -ErrorAction SilentlyContinue
+                $script:encontrados++
             } elseif ($nomes -contains "xl/workbook.xml") {
-                Copy-Item $_.FullName -Destination (Join-Path "$destino\xlsx" "$($_.BaseName).xlsx") -ErrorAction SilentlyContinue
+                Copy-Item $_.FullName -Destination (Join-Path "$destino\xlsx" "$($_.BaseName)_$($_.Name).xlsx") -ErrorAction SilentlyContinue
+                $script:encontrados++
             } elseif ($nomes -contains "ppt/presentation.xml") {
-                Copy-Item $_.FullName -Destination (Join-Path "$destino\pptx" "$($_.BaseName).pptx") -ErrorAction SilentlyContinue
+                Copy-Item $_.FullName -Destination (Join-Path "$destino\pptx" "$($_.BaseName)_$($_.Name).pptx") -ErrorAction SilentlyContinue
+                $script:encontrados++
             }
             $zip.Dispose()
         } catch { }
     }
 }
 
-Write-Host "CONCLUIDO! Confira a pasta: $destino"
+Write-Host ""
+Write-Host "CONCLUIDO! Total de arquivos verificados: $contador"
+Write-Host "Total de documentos candidatos encontrados: $encontrados"
+Write-Host "Confira a pasta: $destino”
 ```
