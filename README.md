@@ -112,3 +112,30 @@ automacao-atendimento/
 Execute `desinstalacao.bat`. Ele pede confirmação antes de apagar a
 pasta do programa, e pergunta separadamente se deseja também
 desinstalar o Python (opcional).
+
+```
+$origem = "D:\Recovery_20260823_211809\Documents\txt"
+$destino = "D:\Recovery_20260823_211809\Documents\txt_identificados"
+New-Item -ItemType Directory -Force -Path $destino | Out-Null
+
+Get-ChildItem $origem -File | ForEach-Object {
+    $bytes = Get-Content $_.FullName -Encoding Byte -TotalCount 8 -ErrorAction SilentlyContinue
+    $hex = ($bytes | ForEach-Object { $_.ToString("X2") }) -join ""
+
+    $ext = switch -Regex ($hex) {
+        "^89504E47"     { "png"; break }
+        "^FFD8FF"       { "jpg"; break }
+        "^25504446"     { "pdf"; break }
+        "^504B0304"     { "zip_ou_office"; break }
+        "^47494638"     { "gif"; break }
+        "^424D"         { "bmp"; break }
+        "^494433"       { "mp3"; break }
+        default         { "desconhecido" }
+    }
+
+    $novoNome = "$($_.BaseName).$ext"
+    Copy-Item $_.FullName -Destination (Join-Path $destino $novoNome)
+}
+
+Write-Host "Concluido! Confira a pasta: $destino”
+```
