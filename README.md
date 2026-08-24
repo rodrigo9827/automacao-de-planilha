@@ -114,61 +114,20 @@ pasta do programa, e pergunta separadamente se deseja também
 desinstalar o Python (opcional).
 
 ```
-New-Item -ItemType Directory -Force -Path "C:\Users\Suzana\Desktop" | Out-Null
-Write-Host "Pasta Area de Trabalho recriada.”
+$destino = "$env:USERPROFILE\Desktop\Programas"
+New-Item -ItemType Directory -Force -Path $destino | Out-Null
 
-$origem = "D:\Recovery_20260823_211809"
-$destino = "D:\Recovery_20260823_211809\organizado_programas"
-New-Item -ItemType Directory -Force -Path "$destino\atalhos_programas" | Out-Null
-New-Item -ItemType Directory -Force -Path "$destino\atalhos_sites_vpn" | Out-Null
-New-Item -ItemType Directory -Force -Path "$destino\conexoes_rdp" | Out-Null
-New-Item -ItemType Directory -Force -Path "$destino\executaveis" | Out-Null
-New-Item -ItemType Directory -Force -Path "$destino\documentos_office" | Out-Null
+$origens = @(
+    "$env:APPDATA\Microsoft\Windows\Start Menu\Programs",
+    "$env:ProgramData\Microsoft\Windows\Start Menu\Programs"
+)
 
-$contador = 0
-Get-ChildItem $origem -File -Recurse | ForEach-Object {
-    $contador++
-    if ($contador % 1000 -eq 0) { Write-Host "Verificados: $contador arquivos..." }
-
-    $tamanho = $_.Length
-    $bytes = Get-Content $_.FullName -Encoding Byte -TotalCount 20 -ErrorAction SilentlyContinue
-    if (-not $bytes -or $bytes.Length -lt 4) { return }
-    $hex = ($bytes | ForEach-Object { $_.ToString("X2") }) -join ""
-
-    # Atalho de programa (.lnk)
-    if ($hex.StartsWith("4C000000011402000000000000000046")) {
-        Copy-Item $_.FullName -Destination (Join-Path "$destino\atalhos_programas" "$($_.BaseName).lnk") -ErrorAction SilentlyContinue
-        return
-    }
-
-    # Executavel (.exe / .dll) - assinatura MZ
-    if ($hex.StartsWith("4D5A")) {
-        Copy-Item $_.FullName -Destination (Join-Path "$destino\executaveis" "$($_.BaseName).exe") -ErrorAction SilentlyContinue
-        return
-    }
-
-    # Documento Office moderno (.docx/.xlsx/.pptx) - todos comecam como .zip
-    if ($hex.StartsWith("504B0304")) {
-        Copy-Item $_.FullName -Destination (Join-Path "$destino\documentos_office" "$($_.BaseName).zip") -ErrorAction SilentlyContinue
-        return
-    }
-
-    # So le como texto se o arquivo for pequeno (evita travar em fotos/videos grandes)
-    if ($tamanho -lt 200KB) {
-        $conteudo = Get-Content $_.FullName -Raw -ErrorAction SilentlyContinue
-        if ($conteudo) {
-            if ($conteudo -match "full address:s:") {
-                Copy-Item $_.FullName -Destination (Join-Path "$destino\conexoes_rdp" "$($_.BaseName).rdp") -ErrorAction SilentlyContinue
-                return
-            }
-            if ($conteudo -match "\[InternetShortcut\]") {
-                Copy-Item $_.FullName -Destination (Join-Path "$destino\atalhos_sites_vpn" "$($_.BaseName).url") -ErrorAction SilentlyContinue
-                return
-            }
-        }
+foreach ($origem in $origens) {
+    Get-ChildItem -Path $origem -Filter *.lnk -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
+        Copy-Item $_.FullName -Destination $destino -ErrorAction SilentlyContinue
     }
 }
 
-Write-Host "CONCLUIDO! Confira a pasta: $destino”
+Write-Host "Concluido! Atalhos copiados para: $destino”
 
 ```
