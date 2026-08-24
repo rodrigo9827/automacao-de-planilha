@@ -63,15 +63,24 @@ echo [OK] Utilizando o interpretador: %PYTHON_CMD%
 %PYTHON_CMD% --version
 
 echo.
-echo [1/4] Instalando bibliotecas necessarias (selenium)...
-%PYTHON_CMD% -m pip install -r requirements.txt --quiet
-
-echo.
-echo [2/4] Definindo caminhos de diretorio...
+echo [1/4] Definindo caminho do programa...
+set "DESTINO=%userprofile%\Downloads\automacao-atendimento\automacao-atendimento"
 set "ORIGEM=%userprofile%\Desktop\atendimento_rodada"
 
-REM Caminho unico: o instalador ja cuida de rodar a partir da pasta correta
-set "DESTINO=%~dp0"
+if not exist "%DESTINO%\main.py" (
+    echo [ERRO] O programa nao foi encontrado em:
+    echo %DESTINO%
+    echo.
+    echo Confira se a pasta automacao-atendimento esta em Downloads,
+    echo ou ajuste o caminho DESTINO no topo deste arquivo.
+    goto :fim
+)
+
+cd /d "%DESTINO%"
+
+echo.
+echo [2/4] Instalando bibliotecas necessarias (selenium)...
+%PYTHON_CMD% -m pip install -r requirements.txt --quiet
 
 if not exist "%ORIGEM%" mkdir "%ORIGEM%"
 
@@ -85,14 +94,7 @@ if %errorlevel% neq 0 (
 
 echo.
 echo [4/4] Executando o programa...
-cd /d "%DESTINO%"
-
-if exist "main.py" (
-    %PYTHON_CMD% main.py
-) else (
-    echo [ERRO] O arquivo main.py nao foi encontrado em:
-    echo %DESTINO%
-)
+%PYTHON_CMD% main.py
 
 echo.
 echo ============================================
