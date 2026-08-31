@@ -18,7 +18,9 @@ final do expediente.
 No repositório do GitHub, clique no botão verde **"Code"** e depois em
 **"Download ZIP"**.
 
-![Botão Code e Download ZIP](assets/inicio-code.png)
+![Botão Code e Download](assets/inicio-code.png)
+
+![Botão de Download](assets/baixar-zip.png)
 
 O arquivo `automacao-de-planilha-main.zip` vai aparecer nos seus
 Downloads.
