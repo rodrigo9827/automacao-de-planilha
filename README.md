@@ -25,6 +25,8 @@ Downloads.
 
 ![Zip baixado na barra de downloads do navegador](assets/baixado.png)
 
+![Tela principal mostrando 1 paciente na fila](assets/abrir-pasta.png)
+
 ### 2. Extrair o arquivo
 
 Clique com o botão direito no `.zip` e escolha **"Extrair Tudo..."**.
@@ -100,8 +102,6 @@ Clique em **"Adicionar à fila"**.
 
 O contador na tela principal mostra quantos pacientes já estão na
 fila — repita esse passo pra cada paciente da rodada.
-
-![Tela principal mostrando 1 paciente na fila](assets/abrir-pasta.png)
 
 ### 8. Iniciar a automação
 
