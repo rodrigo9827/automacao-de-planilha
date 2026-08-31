@@ -47,14 +47,15 @@ Dentro da pasta extraída, arraste o arquivo **`inicializacao.bat`**
 para a Área de Trabalho — assim fica mais fácil de abrir depois, sem
 precisar navegar até a pasta toda vez.
 
-![Pasta do projeto com seta indicando o inicializacao.bat sendo movido para a Área de Trabalho](assets/Mover_para_Desktop.png)
+![Janela do terminal baixando e instalando o Python](assets/Arquivo-inicializacao.png)
 
 ### 4. Executar o inicializador
 
 Dê dois cliques no atalho `inicializacao.bat` que ficou na Área de
 Trabalho.
 
-![Janela do terminal baixando e instalando o Python](assets/Arquivo-inicializacao.png)
+![Pasta do projeto com seta indicando o inicializacao.bat sendo movido para a Área de Trabalho](assets/Mover_para_Desktop.png)
+
 
 
 Na primeira vez, ele verifica se o Python está instalado — se não
