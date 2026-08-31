@@ -11,6 +11,103 @@ final do expediente.
   configuração. Essas informações ficam só na memória enquanto o
   programa está rodando e são apagadas da tela assim que o botão
   "Iniciar" é clicado.
+## Como usar
+
+### 1. Baixar o programa
+
+No repositório do GitHub, clique no botão verde **"Code"** e depois em
+**"Download ZIP"**.
+
+![Botão Code e Download ZIP](assets/inicio-code.png)
+
+O arquivo `automacao-de-planilha-main.zip` vai aparecer nos seus
+Downloads.
+
+![Zip baixado na barra de downloads do navegador](assets/baixado.png)
+
+### 2. Extrair o arquivo
+
+Clique com o botão direito no `.zip` e escolha **"Extrair Tudo..."**.
+
+![Menu de contexto com Extrair Tudo selecionado](assets/extraindo-zip.png)
+
+Confirme a pasta de destino e clique em **"Extrair"**.
+
+![Janela de extração com o botão Extrair destacado](assets/finalizar-extracao.png)
+
+Depois de extrair, entre na pasta gerada (`automacao-de-planilha-main`).
+
+![Pasta extraída dentro de Downloads](assets/Extraido.png)
+
+### 3. Mover o inicializador para a Área de Trabalho
+
+Dentro da pasta extraída, arraste o arquivo **`inicializacao.bat`**
+para a Área de Trabalho — assim fica mais fácil de abrir depois, sem
+precisar navegar até a pasta toda vez.
+
+![Pasta do projeto com seta indicando o inicializacao.bat sendo movido para a Área de Trabalho](assets/Mover_para_Desktop.png)
+
+### 4. Executar o inicializador
+
+Dê dois cliques no atalho `inicializacao.bat` que ficou na Área de
+Trabalho.
+
+![Ícone do inicializacao.bat na Área de Trabalho](assets/executar_inicializacao.png)
+
+Na primeira vez, ele verifica se o Python está instalado — se não
+estiver, baixa e instala sozinho automaticamente. Isso pode levar
+alguns minutos; acompanhe pela janela preta que abre.
+
+![Janela do terminal baixando e instalando o Python](assets/Arquivo-inicializacao.png)
+
+Quando terminar, a janela do programa abre sozinha.
+
+### 5. Pegar o link da planilha
+
+Abra a planilha no Excel Online (SharePoint) e copie o link direto da
+barra de endereço do navegador.
+
+![Barra de endereço do Excel Online com o link em destaque](assets/Link_planilha.png)
+
+Cole esse link no campo **"Link da planilha"** do programa.
+
+![Campo de link da planilha com seta indicando onde colar](assets/Link_programa.png)
+
+### 6. Preencher e-mail, senha e quantidade de células
+
+Preencha o **e-mail** e a **senha** da conta Microsoft, e confirme a
+**quantidade de células por linha** de acordo com o número de colunas
+da planilha (no exemplo, 5 colunas: CNS, Nome, hospital, data de
+contato, data de retorno, obs).
+
+![Formulário preenchido com e-mail, senha e quantidade de células](assets/email_senha.png)
+
+### 7. Cadastrar um paciente
+
+Clique em **"+ Inserir paciente"**.
+
+![Botão + Inserir paciente destacado](assets/botao_inserir_pct.png)
+
+Uma janela abre com um campo de texto único — digite as informações,
+uma por linha (cada linha vira uma célula da planilha, na ordem em que
+aparece). Deixe uma linha em branco se quiser pular uma célula.
+
+![Janela de cadastro de paciente com texto de exemplo preenchido](assets/adicionando_pct1.png)
+
+Clique em **"Adicionar à fila"**.
+
+![Botão Adicionar à fila destacado com seta](assets/inserindo_pct1.png)
+
+O contador na tela principal mostra quantos pacientes já estão na
+fila — repita esse passo pra cada paciente da rodada.
+
+![Tela principal mostrando 1 paciente na fila](assets/abrir-pasta.png)
+
+### 8. Iniciar a automação
+
+Com a fila pronta, clique em **"Iniciar automação"**.
+
+![Botão Iniciar automação destacado com seta, 2 pacientes na fila](assets/iniciar_automacao.png)
 
 ## Uso por outros setores
 
