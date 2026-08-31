@@ -12,8 +12,19 @@ def listar_arquivos_txt(pasta: str) -> list[str]:
 
 def ler_paciente(caminho_arquivo: str) -> list[str]:
     #Lê um arquivo de paciente e devolve a lista de linhas
-    with open(caminho_arquivo, "r", encoding="utf-8") as arquivo:
-        return [linha.rstrip("\n").rstrip("\r") for linha in arquivo]
+    #
+    # Tenta UTF-8 primeiro (padrão do programa ao salvar). Se o arquivo
+    # foi criado ou editado por outro programa que salva em ANSI/
+    # Windows-1252 (comum em editores mais antigos), cai para essa
+    # codificação em vez de travar com UnicodeDecodeError — sem isso,
+    # um único arquivo com acentuação salvo "errado" travava a rodada
+    # inteira, mesmo depois do login já ter sido feito no navegador.
+    try:
+        with open(caminho_arquivo, "r", encoding="utf-8") as arquivo:
+            return [linha.rstrip("\n").rstrip("\r") for linha in arquivo]
+    except UnicodeDecodeError:
+        with open(caminho_arquivo, "r", encoding="cp1252") as arquivo:
+            return [linha.rstrip("\n").rstrip("\r") for linha in arquivo]
 
 def mover_processados(arquivos: list[str], pasta_origem: str) -> str:
     #Move os arquivos já usados para uma subpasta processados/AAAA-MM-DD/.

@@ -113,6 +113,62 @@ Com a fila pronta, clique em **"Iniciar automação"**.
 
 ![Botão Iniciar automação destacado com seta, 2 pacientes na fila](assets/iniciar_automacao.png)
 
+# Como desinstalar
+
+Guia rápido para remover o programa e, se quiser, o Python do
+computador.
+
+### 1. Abra a pasta do projeto e localize o `desinstalacao.bat`
+
+Dentro da pasta onde o programa foi extraído (`assets`, `core`,
+`main.py`, etc.), clique no arquivo `desinstalacao.bat` para
+selecioná-lo.
+
+![Pasta do projeto com desinstalacao.bat selecionado](assets/1stp_uninstall.png)
+
+### 2. Confirme os arquivos da pasta
+
+Confira se está na pasta certa — ela deve conter o `atendimento_rodada`
+(se já tiver rodado o programa antes) e o `inicializacao.bat` junto
+dos outros arquivos.
+
+![Pasta do projeto com os arquivos, incluindo desinstalacao.bat](assets/2stp_uninstall.png)
+
+### 3. Dê dois cliques no `desinstalacao.bat`
+
+![Ícone do desinstalacao.bat](assets/3stp_uninstall.png)
+
+### 4. Responda se quer desinstalar o Python
+
+Uma janela preta abre perguntando **"Deseja desinstalar o Python do
+computador? (S/N)"**. Digite `S` para remover o Python também, ou `N`
+para manter o Python instalado e remover só o programa.
+
+![Pergunta sobre desinstalar o Python](assets/4stp_uninstall.png)
+
+### 5. Confirme a remoção da pasta
+
+Se respondeu `S`, o Python é desinstalado primeiro. Em seguida, o
+script mostra exatamente qual pasta vai apagar e pede confirmação —
+digite `S` novamente para confirmar.
+
+![Python desinstalado e confirmação da pasta a ser apagada](assets/5stp_uninstall.png)
+
+### 6. Pronto
+
+A pasta do programa é removida.
+
+![Pasta ainda aparecendo momentos antes da remoção final](assets/6stp_uninstall.png)
+
+![Pasta Downloads vazia após a remoção completa](assets/7stp_finally.png)
+
+## Importante
+
+- A pergunta sobre o Python e a pergunta sobre apagar a pasta são
+  **duas confirmações separadas** — dá pra manter o Python e remover
+  só o programa, ou vice-versa.
+- Isso não afeta os dados já lançados na planilha — só remove os arquivos do programa no computador local.
+
 ## Uso por outros setores
 
 O botão **"+ Inserir paciente"** abre uma janela com uma única caixa

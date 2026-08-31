@@ -82,7 +82,7 @@ class JanelaTextoLivre:
             messagebox.showwarning("Campo vazio", "Digite alguma informação antes de adicionar.")
             return
 
-        linhas = texto.split("\n")
+        linhas = [linha.rstrip("\r") for linha in texto.split("\n")]
 
         garantir_pasta(PASTA_ATENDIMENTO)
         base = self.prefixo_arquivo + "_" + datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -236,6 +236,9 @@ class JanelaPrincipal:
         except ValueError:
             colunas_por_linha = 5
 
+        if colunas_por_linha < 1:
+            colunas_por_linha = 5
+
         # Apaga a senha do campo assim que ela é lida 
         self.campo_senha.delete(0, tk.END)
 
@@ -285,7 +288,9 @@ class JanelaPrincipal:
 
             self._log("[..] Preenchendo os dados dos pacientes...")
             linhas_por_paciente = [ler_paciente(caminho) for caminho in arquivos]
-            total = preencher_pacientes(driver, linhas_por_paciente, colunas_por_linha)
+            total = preencher_pacientes(
+                driver, linhas_por_paciente, colunas_por_linha, on_log=self._log
+            )
 
             pasta_destino = mover_processados(arquivos, PASTA_ATENDIMENTO)
 
