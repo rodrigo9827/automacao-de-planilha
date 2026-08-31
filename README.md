@@ -54,13 +54,14 @@ precisar navegar até a pasta toda vez.
 Dê dois cliques no atalho `inicializacao.bat` que ficou na Área de
 Trabalho.
 
-![Ícone do inicializacao.bat na Área de Trabalho](assets/executar_inicializacao.png)
+![Janela do terminal baixando e instalando o Python](assets/Arquivo-inicializacao.png)
+
 
 Na primeira vez, ele verifica se o Python está instalado — se não
 estiver, baixa e instala sozinho automaticamente. Isso pode levar
 alguns minutos; acompanhe pela janela preta que abre.
 
-![Janela do terminal baixando e instalando o Python](assets/Arquivo-inicializacao.png)
+![Ícone do inicializacao.bat na Área de Trabalho](assets/executar_inicializacao.png)
 
 Quando terminar, a janela do programa abre sozinha.
 
