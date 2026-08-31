@@ -1,11 +1,11 @@
-# Automação de Atendimento — Gestantes
+# Automação de Atendimento Gestantes
 
 Programa de apoio para as enfermeiras lançarem os dados do atendimento
 de gestantes diretamente numa planilha Excel Online (SharePoint), sem
 precisar digitar linha por linha manualmente, recomendado o uso ao 
 final do expediente.
 
-## Segurança — leia antes de usar
+## Segurança leia antes de usar
 
 - O programa **nunca salva e-mail ou senha** em nenhum arquivo, log ou
   configuração. Essas informações ficam só na memória enquanto o
@@ -46,7 +46,7 @@ Depois de extrair, entre na pasta gerada (`automacao-de-planilha-main`).
 ### 3. Mover o inicializador para a Área de Trabalho
 
 Dentro da pasta extraída, arraste o arquivo **`inicializacao.bat`**
-para a Área de Trabalho — assim fica mais fácil de abrir depois, sem
+para a Área de Trabalho, assim fica mais fácil de abrir depois, sem
 precisar navegar até a pasta toda vez.
 
 ![Janela do terminal baixando e instalando o Python](assets/Arquivo-inicializacao.png)
@@ -60,7 +60,7 @@ Trabalho.
 
 
 
-Na primeira vez, ele verifica se o Python está instalado — se não
+Na primeira vez, ele verifica se o Python está instalado, se não
 estiver, baixa e instala sozinho automaticamente. Isso pode levar
 alguns minutos; acompanhe pela janela preta que abre.
 
@@ -94,7 +94,7 @@ Clique em **"+ Inserir paciente"**.
 
 ![Botão + Inserir paciente destacado](assets/botao_inserir_pct.png)
 
-Uma janela abre com um campo de texto único — digite as informações,
+Uma janela abre com um campo de texto único digite as informações,
 uma por linha (cada linha vira uma célula da planilha, na ordem em que
 aparece). Deixe uma linha em branco se quiser pular uma célula.
 
@@ -105,7 +105,7 @@ Clique em **"Adicionar à fila"**.
 ![Botão Adicionar à fila destacado com seta](assets/inserindo_pct1.png)
 
 O contador na tela principal mostra quantos pacientes já estão na
-fila — repita esse passo pra cada paciente da rodada.
+fila, repita esse passo pra cada paciente da rodada.
 
 ### 8. Iniciar a automação
 
@@ -128,7 +128,7 @@ selecioná-lo.
 
 ### 2. Confirme os arquivos da pasta
 
-Confira se está na pasta certa — ela deve conter o `atendimento_rodada`
+Confira se está na pasta certa, ela deve conter o `atendimento_rodada`
 (se já tiver rodado o programa antes) e o `inicializacao.bat` junto
 dos outros arquivos.
 
@@ -149,7 +149,7 @@ para manter o Python instalado e remover só o programa.
 ### 5. Confirme a remoção da pasta
 
 Se respondeu `S`, o Python é desinstalado primeiro. Em seguida, o
-script mostra exatamente qual pasta vai apagar e pede confirmação —
+script mostra exatamente qual pasta vai apagar e pede confirmação:
 digite `S` novamente para confirmar.
 
 ![Python desinstalado e confirmação da pasta a ser apagada](assets/5stp_uninstall.png)
@@ -165,9 +165,9 @@ A pasta do programa é removida.
 ## Importante
 
 - A pergunta sobre o Python e a pergunta sobre apagar a pasta são
-  **duas confirmações separadas** — dá pra manter o Python e remover
+  **duas confirmações separadas** dá pra manter o Python e remover
   só o programa, ou vice-versa.
-- Isso não afeta os dados já lançados na planilha — só remove os arquivos do programa no computador local.
+- Isso não afeta os dados já lançados na planilha, só remove os arquivos do programa no computador local.
 
 ## Uso por outros setores
 
@@ -199,7 +199,7 @@ programa.
    de cada paciente/registro, célula por célula, pulando de linha
    automaticamente.
 5. Ao final, os arquivos `.txt` já processados são movidos para
-   `atendimento_rodada/processados/<data>/` — não é necessário
+   `atendimento_rodada/processados/<data>/` (não é necessário)
    apagar os arquivos manualmente.
 
 ## Formato do arquivo de paciente
@@ -218,7 +218,7 @@ Próxima ligação: 25/12/2026
 observações
 ```
 
-- Nome do arquivo não importa para o sistema — só evite espaços,
+- Nome do arquivo não importa para o sistema só evite espaços,
   prefira `_` (underline).
 - Recomendado salvar sempre em `atendimento_rodada`, e não direto na
   pasta do programa.
@@ -230,20 +230,20 @@ observações
 - Conexão com a internet (para instalar o Python/dependências na
   primeira vez, e para o Selenium baixar automaticamente o driver do
   Edge compatível com a versão instalada).
-- Conta Microsoft **sem verificação em duas etapas (MFA)** — se a
+- Conta Microsoft **sem verificação em duas etapas (MFA)**  se a
   conta tiver MFA ativado, o login automático vai parar na etapa do
   código/aprovação e vai ser necessário completar manualmente na
   janela aberta.
 - Se o navegador já estiver com a sessão da Microsoft em cache (SSO),
   o programa detecta isso automaticamente e pula a etapa de login,
-  indo direto para o preenchimento — não precisa se preocupar em
+  indo direto para o preenchimento, não precisa se preocupar em
   deslogar antes de testar.
 
 ## Limitações conhecidas
 
 - Antes de começar a digitar, o programa usa o atalho Ctrl+End para
   pular para a última célula com dado na planilha e começar a
-  próxima linha a partir dali — assim nunca sobrescreve o que já foi
+  próxima linha a partir dali, assim nunca sobrescreve o que já foi
   preenchido antes (por outra pessoa ou numa rodada anterior). Isso
   depende do comportamento padrão do Ctrl+End 
 - O navegador é deixado aberto ao final da execução, de propósito,
@@ -253,11 +253,11 @@ observações
 
 ```
 automacao-atendimento/
-├── main.py                 # interface (Tkinter) — ponto de entrada
+├── main.py                 # interface (Tkinter) ponto de entrada
 ├── core/
 │   ├── pacientes.py         # leitura e organização dos arquivos .txt
 │   └── web_automation.py    # login e preenchimento via Selenium
-├── assets/                  # ícone da janela
+├── assets/                  # imagens
 ├── requirements.txt
 ├── inicializacao.bat
 ├── desinstalacao.bat
